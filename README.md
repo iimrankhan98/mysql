@@ -21,3 +21,18 @@ sudo mysql_secure_installation
 enter tempory password & set new password
 
 sudo mysql -u root -p    (login mysql with new password)
+
+## Cronjob for data dump and upload in s3 bucket ##
+
+create sh file  mydatabase_dump.sh
+
+#!/bin/bash
+#mysql data dump
+mysqldump -u root -p mydatabase > mydatabase_dump.sql
+aws s3 cp --recursive  /root/ s3://mysqldatabkp/ --exclude "*" --include "mydatabase_dump.sql" --region "ap-south-1"
+
+crontab -l
+
+crontab -e
+
+0 23 * * * /root/mydatabase_dump.sh  (take data-dump for every day at 11 pm and upload in s3 bucket )
