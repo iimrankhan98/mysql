@@ -35,6 +35,8 @@ mysqldump -u root -p mydatabase > mydatabase_dump.sql
 
 aws s3 cp --recursive  /root/ s3://mysqldatabkp/ --exclude "*" --include "mydatabase_dump.sql" --region "ap-south-1"
 
+:wq  save & exit
+
 crontab -l
 
 crontab -e
