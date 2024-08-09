@@ -27,8 +27,12 @@ sudo mysql -u root -p    (login mysql with new password)
 create sh file  mydatabase_dump.sh
 
 #!/bin/bash
+
+
 #mysql data dump
+
 mysqldump -u root -p mydatabase > mydatabase_dump.sql
+
 aws s3 cp --recursive  /root/ s3://mysqldatabkp/ --exclude "*" --include "mydatabase_dump.sql" --region "ap-south-1"
 
 crontab -l
