@@ -1,0 +1,28 @@
+docker run -d \
+  --name mongodb \
+  -p 27017:27017 \
+  -v mongodb_data:/data/db \
+  -e MONGO_INITDB_ROOT_USERNAME=admin \
+  -e MONGO_INITDB_ROOT_PASSWORD=admin@123 \
+  --restart always \
+  mongo:7.0 --auth
+
+
+docker run -d \
+  --name mongo-express \
+  --link mongodb:mongo \
+  -p 8081:8081 \
+  -e ME_CONFIG_BASICAUTH_USERNAME=admin \
+  -e ME_CONFIG_BASICAUTH_PASSWORD=admin@123 \
+  -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin \
+  -e ME_CONFIG_MONGODB_ADMINPASSWORD=admin@123 \
+  -e ME_CONFIG_MONGODB_URL="mongodb://admin:admin%40123@mongodb:27017/admin" \
+  --restart always \
+  mongo-express
+
+
+
+docker exec -it mongodb mongosh -u admin -p admin@123 --authenticationDatabase admin
+
+
+--restart always \
